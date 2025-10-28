@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Administrador</title>
+  <link rel="stylesheet" href="css/navbar.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="assets/images/logo.jpg" alt="Logo" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="pages/admin.html#clientes">Clientes</a></li>
+      <li><a href="pages/admin.html#proveedores">Proveedores</a></li>
+      <li><a href="pages/admin.html#pedidos">Pedidos</a></li>
+    </ul>
+    <div class="user-actions">
+      <a href="index.html" class="logout">Salir</a>
+    </div>
+  </nav>
+
+  <main class="admin-container">
+    <section id="clientes">
+      <h2>Gestión de Clientes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="clientes-body"></tbody>
+      </table>
+    </section>
+
+    <section id="proveedores">
+      <h2>Gestión de Proveedores</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Contacto</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="proveedores-body"></tbody>
+      </table>
+    </section>
+
+    <section id="pedidos">
+      <h2>Gestión de Pedidos</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="pedidos-body"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

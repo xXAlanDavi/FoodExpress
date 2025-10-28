@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "nombre": "Hamburguesa Clásica",
+    "descripcion": "Carne de res, lechuga, tomate, queso cheddar y salsa especial",
+    "precio": 15.00,
+    "img": "../assets/images/producto1.jpg"
+  },
+  {
+    "id": 2,
+    "nombre": "Pizza Pepperoni",
+    "descripcion": "Masa delgada, salsa de tomate, queso mozzarella y pepperoni",
+    "precio": 20.00,
+    "img": "../assets/images/producto2.jpg"
+  },
+  {
+    "id": 3,
+    "nombre": "Refresco Grande",
+    "descripcion": "Refresco de cola, 600ml",
+    "precio": 5.00,
+    "img": "../assets/images/producto3.jpg"
+  },
+  {
+    "id": 4,
+    "nombre": "Papas Fritas",
+    "descripcion": "Porción grande de papas fritas crujientes",
+    "precio": 8.00,
+    "img": "../assets/images/producto4.jpg"
+  },
+  {
+    "id": 5,
+    "nombre": "Combo Familiar",
+    "descripcion": "2 hamburguesas, 2 refrescos y papas grandes",
+    "precio": 35.00,
+    "img": "../assets/images/producto5.jpg"
+  }
+]
