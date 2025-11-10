@@ -9,9 +9,18 @@ document.getElementById('loginForm')?.addEventListener('submit', function(e) {
 
   const user = users.find(u => u.email === email && u.password === password);
   if (user) {
+    // Mostrar pantalla de carga
+    const loader = document.getElementById('loader');
+    loader.style.display = 'flex';
+    document.querySelector('.loader-text').textContent = 'Cargando por favor espere...';
+
+    // Guardar usuario
     localStorage.setItem('currentUser', JSON.stringify(user));
-    alert("✅ Inicio de sesión exitoso");
-    window.location.href = "../pages/productos.html"; // ✅ Ruta absoluta desde raíz
+
+    // Simular carga y redirigir
+    setTimeout(() => {
+      window.location.href = "../pages/productos.html";
+    }, 2000);
   } else {
     alert("❌ Credenciales incorrectas");
   }
@@ -31,6 +40,13 @@ document.getElementById('registerForm')?.addEventListener('submit', function(e) 
 
   users.push({ nombre, email, password });
   localStorage.setItem('users', JSON.stringify(users));
-  alert("✅ Registro exitoso. Ahora puedes iniciar sesión.");
-  window.location.href = "../pages/login.html"; // ✅ Ruta absoluta desde raíz
+
+  // Mostrar pantalla de carga antes de redirigir
+  const loader = document.getElementById('loader');
+  loader.style.display = 'flex';
+  document.querySelector('.loader-text').textContent = 'Creando tu cuenta...';
+
+  setTimeout(() => {
+    window.location.href = "../pages/productos.html";
+  }, 2000);
 });

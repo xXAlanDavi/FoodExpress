@@ -4,11 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Iniciar Sesión</title>
+
+  <!-- Estilos -->
   <link rel="stylesheet" href="../CSS/navbar.css" />
   <link rel="stylesheet" href="../CSS/login.css" />
-  <!-- ✅ Font Awesome para iconos -->
+  <link rel="stylesheet" href="../CSS/loader.css" />
+
+  <!-- Librerías -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
   <nav class="navbar">
     <div class="container">
@@ -25,7 +31,6 @@
         <a href="login.html" class="user-profile-link">
           <i class="fas fa-user"></i>
           <span class="user-name">Iniciar Sesión</span>
-        </a>
         </a>
       </div>
     </div>
@@ -49,9 +54,57 @@
     </div>
   </section>
 
-  <script src="../JS/auth.js"></script>
+  <!-- 🌀 Pantalla de carga -->
+  <div id="loader" class="loader-overlay" style="display:none;">
+    <div class="loader"></div>
+    <p class="loader-text">Cargando...</p>
+  </div>
+
   <script>
-    // Función para actualizar el estado del carrito
+    // Obtener usuarios simulados
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if (user) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+
+        // ✅ Modal de bienvenida
+        Swal.fire({
+          icon: 'success',
+          title: '¡Bienvenido!',
+          text: `Hola de nuevo, ${user.nombre}.`,
+          showConfirmButton: false,
+          timer: 1800
+        }).then(() => {
+          // Mostrar pantalla de carga
+          const loader = document.getElementById('loader');
+          loader.style.display = 'flex';
+          document.querySelector('.loader-text').textContent = 'Entrando a tu cuenta...';
+
+          // Redirigir después de 1.5 segundos
+          setTimeout(() => {
+            window.location.href = "../pages/productos.html";
+          }, 1500);
+        });
+      } else {
+        // ❌ Modal de error
+        Swal.fire({
+          icon: 'error',
+          title: 'Credenciales incorrectas',
+          text: 'Por favor, revisa tu correo o contraseña.',
+          confirmButtonColor: '#d33',
+          confirmButtonText: 'Intentar de nuevo'
+        });
+      }
+    });
+
+    // Función para actualizar el estado del carrito (sin cambios)
     function actualizarCarritoNavbar() {
       const cartCount = document.getElementById('cartCount');
       if (cartCount) {
@@ -62,17 +115,9 @@
           const misPedidos = pedidos.filter(p => p.cliente === currentUser.nombre);
           if (misPedidos.length > 0) {
             const ultimoPedido = misPedidos[misPedidos.length - 1];
-            const estado = ultimoPedido.estado;
-            
-            // Contar productos en el último pedido
-            let totalProductos = ultimoPedido.productos ? ultimoPedido.productos.length : 0;
-            
-            if (totalProductos > 0) {
-              cartCount.textContent = totalProductos;
-              cartCount.style.display = 'block';
-            } else {
-              cartCount.style.display = 'none';
-            }
+            const totalProductos = ultimoPedido.productos ? ultimoPedido.productos.length : 0;
+            cartCount.textContent = totalProductos > 0 ? totalProductos : '';
+            cartCount.style.display = totalProductos > 0 ? 'block' : 'none';
           } else {
             cartCount.style.display = 'none';
           }
@@ -82,10 +127,7 @@
       }
     }
 
-    // Cargar todo cuando la página cargue
-    document.addEventListener('DOMContentLoaded', function() {
-      actualizarCarritoNavbar();
-    });
+    document.addEventListener('DOMContentLoaded', actualizarCarritoNavbar);
   </script>
 </body>
 </html>

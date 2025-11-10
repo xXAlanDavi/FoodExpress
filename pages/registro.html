@@ -4,11 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crear Cuenta</title>
+
+  <!-- Estilos -->
   <link rel="stylesheet" href="../CSS/navbar.css" />
   <link rel="stylesheet" href="../CSS/registro.css" />
-  <!-- ✅ Font Awesome para iconos -->
+  <link rel="stylesheet" href="../CSS/loader.css" />
+
+  <!-- Librerías -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
   <nav class="navbar">
     <div class="container">
@@ -26,7 +32,6 @@
         <a href="login.html" class="user-profile-link">
           <i class="fas fa-user"></i>
           <span class="user-name">Iniciar Sesión</span>
-        </a>
         </a>
       </div>
     </div>
@@ -51,7 +56,7 @@
         <div class="form-group">
           <label for="confirmPassword">Confirmar Contraseña</label>
           <input type="password" id="confirmPassword" placeholder="••••••••" required />
-          <div id="password-error" class="error-message" style="display: none; color: #e74c3c; font-size: 0.9rem; margin-top: 0.5rem;"></div>
+          <div id="password-error" class="error-message" style="display:none; color:#e74c3c; font-size:0.9rem; margin-top:0.5rem;"></div>
         </div>
         <button type="submit">Registrar</button>
       </form>
@@ -59,40 +64,14 @@
     </div>
   </section>
 
-  <script src="../JS/auth.js"></script>
-  <script>
-    // Función para actualizar el estado del carrito
-    function actualizarCarritoNavbar() {
-      const cartCount = document.getElementById('cartCount');
-      if (cartCount) {
-        const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        
-        if (currentUser && pedidos.length > 0) {
-          const misPedidos = pedidos.filter(p => p.cliente === currentUser.nombre);
-          if (misPedidos.length > 0) {
-            const ultimoPedido = misPedidos[misPedidos.length - 1];
-            const estado = ultimoPedido.estado;
-            
-            // Contar productos en el último pedido
-            let totalProductos = ultimoPedido.productos ? ultimoPedido.productos.length : 0;
-            
-            if (totalProductos > 0) {
-              cartCount.textContent = totalProductos;
-              cartCount.style.display = 'block';
-            } else {
-              cartCount.style.display = 'none';
-            }
-          } else {
-            cartCount.style.display = 'none';
-          }
-        } else {
-          cartCount.style.display = 'none';
-        }
-      }
-    }
+  <!-- 🌀 Pantalla de carga -->
+  <div id="loader" class="loader-overlay" style="display:none;">
+    <div class="loader"></div>
+    <p class="loader-text">Cargando...</p>
+  </div>
 
-    // Función para validar contraseñas
+  <!-- Script principal -->
+  <script>
     function validarContraseñas() {
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
@@ -108,47 +87,48 @@
       }
     }
 
-    // Validar en tiempo real cuando el usuario escribe en el campo de confirmación
-    document.getElementById('confirmPassword').addEventListener('input', function() {
-      if (this.value.length > 0) {
-        validarContraseñas();
-      } else {
-        document.getElementById('password-error').style.display = 'none';
-      }
-    });
-
-    // Validar en tiempo real cuando el usuario escribe en el campo de contraseña
-    document.getElementById('password').addEventListener('input', function() {
-      const confirmPassword = document.getElementById('confirmPassword').value;
-      if (confirmPassword.length > 0) {
-        validarContraseñas();
-      }
-    });
-
-    // Manejar el envío del formulario
     document.getElementById('registerForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      
-      // Validar contraseñas antes de enviar
-      if (!validarContraseñas()) {
+
+      if (!validarContraseñas()) return;
+
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+
+      if (users.some(u => u.email === email)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Correo ya registrado',
+          text: 'Por favor usa otro correo electrónico.',
+          confirmButtonColor: '#d33',
+          confirmButtonText: 'Entendido'
+        });
         return;
       }
-      
-      const nombre = document.getElementById('nombre').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      
-      // Aquí iría tu lógica de registro
-      // Por ahora, simulamos el registro
-      alert('¡Registro exitoso!');
-      
-      // Redirigir al login después del registro
-      window.location.href = 'login.html';
-    });
 
-    // Cargar todo cuando la página cargue
-    document.addEventListener('DOMContentLoaded', function() {
-      actualizarCarritoNavbar();
+      const newUser = { nombre, email, password };
+      users.push(newUser);
+      localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('currentUser', JSON.stringify(newUser));
+
+      Swal.fire({
+        icon: 'success',
+        title: '¡Registro exitoso!',
+        text: `Bienvenido/a, ${nombre}.`,
+        showConfirmButton: false,
+        timer: 2000
+      }).then(() => {
+        const loader = document.getElementById('loader');
+        loader.style.display = 'flex';
+        document.querySelector('.loader-text').textContent = 'Cargando...';
+
+        setTimeout(() => {
+          window.location.href = 'productos.html';
+        }, 2000);
+      });
     });
   </script>
 </body>

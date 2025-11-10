@@ -53,7 +53,7 @@ function agregarAlCarrito(idProducto) {
   
   // Guardar en localStorage
   localStorage.setItem('carrito', JSON.stringify(carrito));
-  alert(`¡${producto.nombre} agregado al carrito!`);
+
   
   // Actualizar vista del carrito
   mostrarCarrito();
