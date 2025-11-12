@@ -141,7 +141,8 @@ function realizarPedido() {
   // Limpiar carrito
   localStorage.removeItem('carrito');
   
-  alert('¡Pedido realizado con éxito!');
+
+  mostrarModalExito();
   window.location.href = 'pedidos.html';
 }
 
@@ -168,3 +169,19 @@ document.addEventListener('DOMContentLoaded', function() {
     mostrarCarrito();
   }
 });
+
+function mostrarModalExito() {
+  const modal = document.getElementById("successModal");
+  const closeBtn = document.getElementById("closeModalBtn");
+  
+  modal.style.display = "flex";
+
+  closeBtn.onclick = () => {
+    modal.style.display = "none";
+  };
+
+  // Si quieres que se cierre haciendo clic fuera del modal
+  modal.onclick = (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  };
+}

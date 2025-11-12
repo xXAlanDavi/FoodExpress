@@ -4,31 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nuestros Productos</title>
+
+  <!-- ✅ Rutas corregidas -->
   <link rel="stylesheet" href="../CSS/navbar.css" />
+  <link rel="stylesheet" href="../CSS/global.css" />
   <link rel="stylesheet" href="../CSS/productos.css" />
-  <!-- ✅ Font Awesome para iconos -->
+
+  <!-- ✅ Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
+  <!-- ✅ Navbar -->
   <nav class="navbar">
     <div class="container">
       <div class="logo">
         <img src="../assets/images/logo.jpg" alt="Logo" />
         <span class="brand-name">FastFoodExpress</span>
       </div>
+
       <div class="nav-actions">
         <ul class="nav-links">
           <li><a href="../index.html">Inicio</a></li>
-          <li><a href="productos.html">Menú</a></li>
+          <li><a href="productos.html" class="active">Menú</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
+
         <button class="search-btn"><i class="fas fa-search"></i></button>
+
+        <!-- ✅ Perfil -->
         <a href="perfil-cliente.html" class="user-profile-link" id="userProfileLink">
           <img src="../assets/images/user-avatar.png" alt="Perfil" class="user-avatar" id="navbarAvatar">
           <span class="user-name" id="navbarUserName">Mi Perfil</span>
           <i class="fas fa-chevron-down dropdown-icon"></i>
         </a>
-        <a href="pedidos.html" class="cart-btn">
+
+        <!-- ✅ Carrito -->
+        <a href="pedidos.html" class="cart-btn" id="cartButton">
           <i class="fas fa-shopping-cart"></i>
           <span class="cart-count" id="cartCount">0</span>
         </a>
@@ -36,69 +48,24 @@
     </div>
   </nav>
 
+  <!-- ✅ Contenido principal -->
   <main class="products-container">
     <h1>Nuestros Productos</h1>
     <div id="productos-lista"></div>
-    <div id="carrito"></div>
   </main>
 
-  <!-- ✅ Scripts con rutas corregidas -->
+  <!-- ✅ Modal global reutilizable -->
+  <div id="successModal" class="modal-overlay">
+    <div class="modal-content">
+      <h2>✅ Producto agregado</h2>
+      <p>El producto se ha añadido correctamente al carrito.</p>
+      <button id="closeModalBtn">Aceptar</button>
+    </div>
+  </div>
+
+  <!-- ✅ Scripts -->
   <script src="../JS/main.js"></script>
-  <script src="../JS/pedido.js"></script>
-  <script>
-    // Función para actualizar el estado del carrito
-    function actualizarCarritoNavbar() {
-      const cartCount = document.getElementById('cartCount');
-      if (cartCount) {
-        const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        
-        if (currentUser && pedidos.length > 0) {
-          const misPedidos = pedidos.filter(p => p.cliente === currentUser.nombre);
-          if (misPedidos.length > 0) {
-            const ultimoPedido = misPedidos[misPedidos.length - 1];
-            const estado = ultimoPedido.estado;
-            
-            // Contar productos en el último pedido
-            let totalProductos = ultimoPedido.productos ? ultimoPedido.productos.length : 0;
-            
-            if (totalProductos > 0) {
-              cartCount.textContent = totalProductos;
-              cartCount.style.display = 'block';
-            } else {
-              cartCount.style.display = 'none';
-            }
-          } else {
-            cartCount.style.display = 'none';
-          }
-        } else {
-          cartCount.style.display = 'none';
-        }
-      }
-    }
-
-    // Función para cargar el perfil del usuario en la navbar
-    function cargarPerfilNavbar() {
-      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      const navbarAvatar = document.getElementById('navbarAvatar');
-      const navbarUserName = document.getElementById('navbarUserName');
-      
-      if (currentUser) {
-        navbarUserName.textContent = currentUser.nombre;
-        if (currentUser.avatar) {
-          navbarAvatar.src = currentUser.avatar;
-        }
-      } else {
-        navbarUserName.textContent = 'Iniciar Sesión';
-        navbarAvatar.src = '../assets/images/user-avatar.png';
-      }
-    }
-
-    // Cargar todo cuando la página cargue
-    document.addEventListener('DOMContentLoaded', function() {
-      actualizarCarritoNavbar();
-      cargarPerfilNavbar();
-    });
-  </script>
+  <script src="../JS/productos.js"></script>
+  <script src="../JS/carrito.js"></script>
 </body>
 </html>

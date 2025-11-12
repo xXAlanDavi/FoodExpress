@@ -4,30 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mi Perfil</title>
+
+  <!-- Estilos -->
   <link rel="stylesheet" href="../CSS/navbar.css" />
+  <link rel="stylesheet" href="../CSS/global.css">
   <link rel="stylesheet" href="../CSS/perfil.css" />
-  <!-- Font Awesome para iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
+  <!-- 🧭 NAVBAR -->
   <nav class="navbar">
     <div class="container">
       <div class="logo">
         <img src="../assets/images/logo.jpg" alt="Logo" />
         <span class="brand-name">FastFoodExpress</span>
       </div>
+
       <div class="nav-actions">
         <ul class="nav-links">
           <li><a href="../index.html">Inicio</a></li>
           <li><a href="productos.html">Menú</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
+
         <button class="search-btn"><i class="fas fa-search"></i></button>
+
         <a href="perfil-cliente.html" class="user-profile-link" id="userProfileLink">
           <img src="../assets/images/user-avatar.png" alt="Perfil" class="user-avatar" id="navbarAvatar">
           <span class="user-name" id="navbarUserName">Mi Perfil</span>
           <i class="fas fa-chevron-down dropdown-icon"></i>
         </a>
+
         <a href="pedidos.html" class="cart-btn">
           <i class="fas fa-shopping-cart"></i>
           <span class="cart-count" id="cartCount">0</span>
@@ -36,54 +44,64 @@
     </div>
   </nav>
 
+  <!-- 🧍‍♂️ PERFIL -->
   <main class="profile-container">
-    <!-- ✅ Contenedor para mostrar mensaje si no hay usuario -->
-    <div id="loginMessage" style="display: none; text-align: center; padding: 2rem; background: #f8f9fa; border-radius: 15px;">
+
+    <!-- 🚪 Si no hay usuario -->
+    <div id="loginMessage" class="profile-message">
       <h2>Por favor, inicia sesión</h2>
       <p>Para ver tu perfil, necesitas estar registrado e iniciar sesión.</p>
       <a href="login.html" class="btn-primary">Iniciar Sesión</a>
     </div>
 
-    <!-- ✅ Contenedor para mostrar perfil cuando hay usuario -->
+    <!-- 👤 Contenido del perfil -->
     <div id="profileContent" style="display: none;">
       <h1>Mi Perfil</h1>
-      
+
+      <!-- Encabezado -->
       <div class="profile-header">
         <div class="profile-avatar">
           <img src="../assets/images/user-avatar.png" alt="Foto de perfil" id="avatarImage">
-          <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+          <input type="file" id="avatarUpload" accept="image/*" hidden>
           <label for="avatarUpload" class="change-avatar-btn">Cambiar foto</label>
         </div>
+
         <div class="profile-info">
           <h2 id="userName">Cargando...</h2>
           <p id="userEmail">Cargando email...</p>
         </div>
       </div>
 
-      <div class="profile-section">
+      <!-- Configuración de cuenta -->
+      <section class="profile-section">
         <h3>Configuración de Cuenta</h3>
         <form id="profileForm">
           <div class="form-group">
             <label for="nombre">Nombre Completo</label>
             <input type="text" id="nombre" required />
           </div>
+
           <div class="form-group">
             <label for="email">Correo Electrónico</label>
             <input type="email" id="email" required />
           </div>
+
           <div class="form-group">
             <label for="telefono">Número de Teléfono</label>
             <input type="tel" id="telefono" placeholder="+55 123 456 789" />
           </div>
+
           <div class="form-group">
             <label for="direccion">Dirección</label>
             <textarea id="direccion" rows="3"></textarea>
           </div>
+
           <button type="submit" class="save-btn">Guardar Cambios</button>
         </form>
-      </div>
+      </section>
 
-      <div class="profile-section">
+      <!-- Cambio de contraseña -->
+      <section class="profile-section">
         <h3>Cambiar Contraseña</h3>
         <form id="passwordForm">
           <div class="form-group">
@@ -100,178 +118,49 @@
           </div>
           <button type="submit" class="save-btn">Actualizar Contraseña</button>
         </form>
-      </div>
+      </section>
 
+      <!-- Acciones -->
       <div class="profile-actions">
         <a href="pedidos.html" class="btn-primary">Ver Historial de Pedidos</a>
         <button id="logoutBtn" class="btn-secondary">Cerrar Sesión</button>
       </div>
     </div>
   </main>
+  <!-- Modal de Cierre de Sesión -->
+  <div id="logoutModal" class="modal-overlay">
+    <div class="modal">
+      <h2>¿Cerrar sesión?</h2>
+      <p>Tu sesión actual se cerrará. ¿Deseas continuar?</p>
+      <div class="modal-actions">
+        <button id="confirmLogout" class="btn-danger">Sí, cerrar sesión</button>
+        <button id="cancelLogout" class="btn-secondary">Cancelar</button>
+      </div>
+    </div>
+  </div>
 
-  <script>
-    // Función para verificar si el usuario está logueado
-    function verificarLogin() {
-      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      if (!currentUser) {
-        // Mostrar mensaje de login
-        document.getElementById('loginMessage').style.display = 'block';
-        document.getElementById('profileContent').style.display = 'none';
-        return false;
-      }
-      return true;
-    }
+  <!-- Modal de cierre de sesión -->
+  <div id="logoutModal" class="modal-overlay">
+    <div class="modal">
+      <h2>¿Cerrar sesión?</h2>
+      <p>Tu sesión actual se cerrará. ¿Deseas continuar?</p>
+      <div class="modal-actions">
+        <button id="confirmLogout" class="btn-danger">Sí, cerrar sesión</button>
+        <button id="cancelLogout" class="btn-secondary">Cancelar</button>
+      </div>
+    </div>
+  </div>
 
-    // Función para cargar el perfil del usuario
-    function cargarPerfilUsuario() {
-      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      const userProfileLink = document.getElementById('userProfileLink');
-      const navbarAvatar = document.getElementById('navbarAvatar');
-      const navbarUserName = document.getElementById('navbarUserName');
-      const userName = document.getElementById('userName');
-      const userEmail = document.getElementById('userEmail');
-      const avatarImage = document.getElementById('avatarImage');
-      const nombreInput = document.getElementById('nombre');
-      const emailInput = document.getElementById('email');
-      const telefonoInput = document.getElementById('telefono');
-      const direccionInput = document.getElementById('direccion');
+  <!-- Pantalla de carga al cerrar sesión -->
+  <div id="logoutLoader" class="loader-overlay">
+    <div class="loader">
+      <div class="spinner"></div>
+      <p>Cerrando sesión...</p>
+    </div>
+  </div>
 
-      if (currentUser) {
-        // Actualizar navbar con nombre y foto
-        navbarUserName.textContent = currentUser.nombre;
-        if (currentUser.avatar) {
-          navbarAvatar.src = currentUser.avatar;
-          avatarImage.src = currentUser.avatar;
-        }
-        
-        // Mostrar datos en el perfil
-        userName.textContent = currentUser.nombre;
-        userEmail.textContent = currentUser.email;
-        
-        // Rellenar el formulario con los datos actuales
-        nombreInput.value = currentUser.nombre || '';
-        emailInput.value = currentUser.email || '';
-        telefonoInput.value = currentUser.telefono || '';
-        direccionInput.value = currentUser.direccion || '';
-        
-        // Mostrar contenido del perfil
-        document.getElementById('loginMessage').style.display = 'none';
-        document.getElementById('profileContent').style.display = 'block';
-      } else {
-        // Mostrar mensaje de login
-        document.getElementById('loginMessage').style.display = 'block';
-        document.getElementById('profileContent').style.display = 'none';
-      }
-    }
-
-    // Función para guardar cambios en el perfil
-    document.getElementById('profileForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      if (!currentUser) return;
-      
-      currentUser.nombre = document.getElementById('nombre').value;
-      currentUser.email = document.getElementById('email').value;
-      currentUser.telefono = document.getElementById('telefono').value;
-      currentUser.direccion = document.getElementById('direccion').value;
-      
-      localStorage.setItem('currentUser', JSON.stringify(currentUser));
-      alert('¡Datos guardados correctamente!');
-    });
-
-    // Función para cambiar contraseña
-    document.getElementById('passwordForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      if (!currentUser) return;
-      
-      const currentPassword = document.getElementById('currentPassword').value;
-      const newPassword = document.getElementById('newPassword').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-      
-      if (currentPassword !== currentUser.password) {
-        alert('La contraseña actual es incorrecta');
-        return;
-      }
-      
-      if (newPassword !== confirmPassword) {
-        alert('Las contraseñas no coinciden');
-        return;
-      }
-      
-      currentUser.password = newPassword;
-      localStorage.setItem('currentUser', JSON.stringify(currentUser));
-      alert('¡Contraseña actualizada correctamente!');
-      
-      // Limpiar campos
-      document.getElementById('currentPassword').value = '';
-      document.getElementById('newPassword').value = '';
-      document.getElementById('confirmPassword').value = '';
-    });
-
-    // Función para cerrar sesión
-    document.getElementById('logoutBtn').addEventListener('click', function() {
-      localStorage.removeItem('currentUser');
-      window.location.href = 'login.html';
-    });
-
-    // Función para subir foto de perfil
-    document.getElementById('avatarUpload').addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-          if (currentUser) {
-            currentUser.avatar = event.target.result;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            document.getElementById('avatarImage').src = event.target.result;
-            document.getElementById('navbarAvatar').src = event.target.result;
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    // Función para actualizar el estado del carrito
-    function actualizarCarritoNavbar() {
-      const cartCount = document.getElementById('cartCount');
-      if (cartCount) {
-        const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        
-        if (currentUser && pedidos.length > 0) {
-          const misPedidos = pedidos.filter(p => p.cliente === currentUser.nombre);
-          if (misPedidos.length > 0) {
-            const ultimoPedido = misPedidos[misPedidos.length - 1];
-            const estado = ultimoPedido.estado;
-            
-            // Contar productos en el último pedido
-            let totalProductos = ultimoPedido.productos ? ultimoPedido.productos.length : 0;
-            
-            if (totalProductos > 0) {
-              cartCount.textContent = totalProductos;
-              cartCount.style.display = 'block';
-            } else {
-              cartCount.style.display = 'none';
-            }
-          } else {
-            cartCount.style.display = 'none';
-          }
-        } else {
-          cartCount.style.display = 'none';
-        }
-      }
-    }
-
-    // Cargar todo cuando la página cargue
-    document.addEventListener('DOMContentLoaded', function() {
-      verificarLogin();
-      cargarPerfilUsuario();
-      actualizarCarritoNavbar();
-    });
-  </script>
+  <!-- Scripts -->
+  <script src="../JS/perfil.js"></script>
+  <script src="../JS/carrito.js"></script>
 </body>
 </html>
