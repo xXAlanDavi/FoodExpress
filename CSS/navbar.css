@@ -112,12 +112,20 @@ body {
     height: 30px;
     border-radius: 50%;
     object-fit: cover;
+    background: var(--light);
+    border: 1px solid #ddd;
+    display: block;
 }
 
 .user-name {
     color: var(--dark);
     font-weight: 600;
     font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.user-profile-link {
+    white-space: nowrap;
 }
 
 .dropdown-icon {

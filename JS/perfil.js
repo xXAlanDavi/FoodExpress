@@ -24,6 +24,12 @@ function verificarLogin() {
   loginMessage.style.display = isLoggedIn ? 'none' : 'block';
   profileContent.style.display = isLoggedIn ? 'block' : 'none';
 
+  // Mostrar la imagen predeterminada cuando no hay sesión
+  if (!isLoggedIn) {
+    navbarAvatar.src = DEFAULT_AVATAR;
+    navbarUserName.textContent = 'Mi Perfil';
+  }
+
   return isLoggedIn;
 }
 

@@ -25,7 +25,7 @@
         </ul>
         <button class="search-btn"><i class="fas fa-search"></i></button>
         <a href="perfil-cliente.html" class="user-profile-link" id="userProfileLink">
-          <img src="../assets/images/user-avatar.png" alt="Perfil" class="user-avatar" id="navbarAvatar">
+          <img src="../assets/images/default-avatar.png" alt="Perfil" class="user-avatar" id="navbarAvatar">
           <span class="user-name" id="navbarUserName">Mi Perfil</span>
           <i class="fas fa-chevron-down dropdown-icon"></i>
         </a>
@@ -57,37 +57,6 @@
 
   <script src="../JS/main.js"></script>
   <script>
-    // Función para actualizar el estado del carrito
-    function actualizarCarritoNavbar() {
-      const cartCount = document.getElementById('cartCount');
-      if (cartCount) {
-        const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        
-        if (currentUser && pedidos.length > 0) {
-          const misPedidos = pedidos.filter(p => p.cliente === currentUser.nombre);
-          if (misPedidos.length > 0) {
-            const ultimoPedido = misPedidos[misPedidos.length - 1];
-            const estado = ultimoPedido.estado;
-            
-            // Contar productos en el último pedido
-            let totalProductos = ultimoPedido.productos ? ultimoPedido.productos.length : 0;
-            
-            if (totalProductos > 0) {
-              cartCount.textContent = totalProductos;
-              cartCount.style.display = 'block';
-            } else {
-              cartCount.style.display = 'none';
-            }
-          } else {
-            cartCount.style.display = 'none';
-          }
-        } else {
-          cartCount.style.display = 'none';
-        }
-      }
-    }
-
     // Función para cargar el perfil del usuario en la navbar
     function cargarPerfilNavbar() {
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -95,18 +64,17 @@
       const navbarUserName = document.getElementById('navbarUserName');
       
       if (currentUser) {
-        navbarUserName.textContent = currentUser.nombre;
+        navbarUserName.textContent = currentUser.nombre || 'Mi Perfil';
         if (currentUser.avatar) {
           navbarAvatar.src = currentUser.avatar;
         }
       } else {
-        navbarUserName.textContent = 'Iniciar Sesión';
-        navbarAvatar.src = '../assets/images/user-avatar.png';
+        navbarUserName.textContent = 'Mi Perfil';
+        navbarAvatar.src = '../assets/images/default-avatar.png';
       }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      actualizarCarritoNavbar();
       cargarPerfilNavbar();
 
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
